@@ -41,7 +41,9 @@ class ConstMeta(type):
             if not issubclass(typ, str):
                 dct['__slots__'] = ('_name', '_namespace')
 
-            Const = type('Const', (typ, ), dct)
+            typName = typ.__name__
+            name = 'Named' + typName[0].upper() + typName[1:]
+            Const = type(name, (typ, ), dct)
 
             cls.__ConstClasses[typ] = Const
 

@@ -13,13 +13,19 @@ to define constants in a common namespace::
    >>> print MyConstants.pi / 2
    1.57079632679
 
-As you can see, the named constants behave as expected; the only
-special feature about them is their string representation::
+As you can see, the named constants behave as expected, since they are
+instances of subclasses of the original type.  The only special feature
+about them is their string representation, and that they have a name()::
 
   >>> MyConstants.pi
   MyConstants.pi
   >>> print MyConstants.pi
   3.14159265359
+  >>> type(MyConstants.pi)
+  <class 'constants.NamedFloat'>
+  >>> assert isinstance(MyConstants.pi, float)
+  >>> MyConstants.pi.name()
+  'pi'
 
 One common use case will be the definition of some enum-like identifiers::
 
@@ -28,8 +34,6 @@ One common use case will be the definition of some enum-like identifiers::
   ... 
   >>> Colors.blue
   Colors.blue
-  >>> type(Colors.blue)
-  <class 'constants.Const'>
   >>> Colors.black = None
   Traceback (most recent call last):
    ...
