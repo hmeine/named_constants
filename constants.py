@@ -96,46 +96,12 @@ class ConstMeta(type):
 
 
 class Constants(object):
-    """Base class for constant namespaces.  Use like this:
-
->>> import constants
->>> class MyConstants(constants.Constants):
-...     pi = 3.1415926535897932384626433832795028841971693993
-...     e = 2.718281828459045
-...
->>> MyConstants.pi
-constants.MyConstants.pi
->>> print MyConstants.pi
-pi
->>> print MyConstants.pi / 2
-1.57079632679
->>> len(MyConstants)
-2
-
->>> class Colors(constants.Constants):
-...     red, yellow, green, blue, white = range(5)
-...
->>> len(Colors)
-5
->>> import math
->>> math.e
-2.718281828459045
->>> Colors.blue
-constants.Colors.blue
->>> type(Colors.blue)
-<class 'constants.Const'>
->>> Colors.black = None
-Traceback (most recent call last):
- ...
-TypeError: Constants are not supposed to be changed ex post
-
-    """
-    
+    """Base class for constant namespaces."""
     __metaclass__ = ConstMeta
     __slots__ = ()
 
 # --------------------------------------------------------------------
 
 if __name__ == '__main__':
-    import constants, doctest
-    doctest.testmod(constants)
+    import doctest
+    doctest.testfile('README.rst')
