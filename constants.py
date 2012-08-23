@@ -8,33 +8,39 @@ class ConstMeta(type):
         Const = cls.__ConstClasses.get(typ, None)
         
         if Const is None:
-            class Const(typ):
-                """Named, typed constant (subclassed from original
+            def __new__(cls, name, value):
+                res = typ.__new__(cls, value)
+                res._name = name
+                res._namespace = None
+                return res
+
+            def __str__(self):
+                return self._name
+            
+            def __repr__(self):
+                if self._namespace is None:
+                    return self._name
+                if self._namespace.__module__ == '__main__':
+                    namespace = self._namespace.__name__
+                else:
+                    namespace = "%s.%s" % (self._namespace.__module__,
+                                           self._namespace.__name__)
+                return "%s.%s" % (namespace, self._name)
+
+            dct = dict(
+                __doc__ = """Named, typed constant (subclassed from original
                 type, cf. `Constants` class).  Sole purpose is
                 pretty-printing, i.e. __repr__ and __str__ return the
                 constant's name instead of the original string
-                representations."""
-                
-                __slots__ = ('_name', '_namespace')
+                representations.""",
+                __new__ = __new__,
+                __str__ = __str__,
+                __repr__ = __repr__)
 
-                def __new__(cls, name, value):
-                    res = typ.__new__(cls, value)
-                    res._name = name
-                    res._namespace = None
-                    return res
+            if not issubclass(typ, str):
+                dct['__slots__'] = ('_name', '_namespace')
 
-                def __str__(self):
-                    return self._name
-                
-                def __repr__(self):
-                    if self._namespace is None:
-                        return self._name
-                    if self._namespace.__module__ == '__main__':
-                        namespace = self._namespace.__name__
-                    else:
-                        namespace = "%s.%s" % (self._namespace.__module__,
-                                               self._namespace.__name__)
-                    return "%s.%s" % (namespace, self._name)
+            Const = type('Const', (typ, ), dct)
 
             cls.__ConstClasses[typ] = Const
 
