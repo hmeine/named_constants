@@ -1,11 +1,14 @@
 import inspect
 
-class ConstMeta(type):
-    __ConstClasses = {}
+class _ConstantsMeta(type):
+    __NamedTypes = {}
 
     @classmethod
-    def __getConstClass(cls, typ):
-        Const = cls.__ConstClasses.get(typ, None)
+    def NamedValue(cls, typ):
+        """Returns a 'NamedTyp' class derived from the given 'typ'.
+        The results are cached, i.e. given the same type, the same
+        class will be returned in subsequent calls."""
+        Const = cls.__NamedTypes.get(typ, None)
         
         if Const is None:
             def __new__(cls, name, value):
@@ -28,11 +31,11 @@ class ConstMeta(type):
                 return "%s.%s" % (namespace, self._name)
 
             dct = dict(
-                __doc__ = """Named, typed constant (subclassed from original
-                type, cf. `Constants` class).  Sole purpose is
-                pretty-printing, i.e. __repr__ and __str__ return the
-                constant's name instead of the original string
-                representations.""",
+                __doc__ = """
+Named, typed constant (subclassed from original type, cf. `Constants`
+class).  Sole purpose is pretty-printing, i.e. __repr__ returns the
+constant's name instead of the original string representations.
+The name is also available via a `name()` method.""".lstrip(),
                 __new__ = __new__,
                 name = name,
                 #__str__ = name,
@@ -45,7 +48,7 @@ class ConstMeta(type):
             name = 'Named' + typName[0].upper() + typName[1:]
             Const = type(name, (typ, ), dct)
 
-            cls.__ConstClasses[typ] = Const
+            cls.__NamedTypes[typ] = Const
 
         return Const
     
@@ -57,7 +60,7 @@ class ConstMeta(type):
             value = dct[member]
             if member.startswith('_') or inspect.isfunction(value):
                 continue
-            Const = cls.__getConstClass(type(value))
+            Const = cls.NamedValue(type(value))
             c = Const(member, value)
             constants[member] = c
             dct[member] = c
@@ -115,7 +118,7 @@ class ConstMeta(type):
 
 class Constants(object):
     """Base class for constant namespaces."""
-    __metaclass__ = ConstMeta
+    __metaclass__ = _ConstantsMeta
     __slots__ = ()
 
     def __new__(cls, x):
