@@ -46,3 +46,21 @@ The namespaces also allow some dict-like introspection::
 
   >>> len(Colors)
   5
+  >>> assert sorted(Colors.values()) == range(5)
+  >>> Colors.has_key('blue')
+  True
+  >>> Colors.has_key('purple')
+  False
+  >>> for key, value in Colors.iteritems():
+  ...     print "%10s: %s" % (key, value)
+         red: 0
+      yellow: 1
+       green: 2
+        blue: 3
+       white: 4
+
+Note that iterating over the namespace (e.g. using the standard
+`keys()`, `values()`, `items()`, their iter variants, or just `for
+constant in MyConst`), the results will be *sorted* by the values (not
+the keys/names).  This is particularly useful for dumping tables like
+above.

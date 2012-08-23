@@ -62,6 +62,7 @@ class ConstMeta(type):
 
         dct['__constants__'] = constants
         dct['__reverse__'] = dict((value, value) for key, value in constants.iteritems())
+        dct['__sorted__'] = sorted(constants.values())
 
         result = type.__new__(cls, name, bases, dct)
 
@@ -89,24 +90,25 @@ class ConstMeta(type):
     def has_value(self, value):
         return self.__reverse__.has_key(value)
 
-    # dict-like API follows (maybe optional?) - TODO: __contains__
     def keys(self):
-        return self.__constants__.keys()
+        return [c.name() for c in self.__sorted__]
 
     def values(self):
-        return self.__constants__.values()
+        return self.__sorted__
 
     def items(self):
-        return self.__constants__.items()
+        return [(c.name(), c) for c in self.__sorted__]
 
     def iterkeys(self):
-        return self.__constants__.iterkeys()
+        for key, value in self.__sorted__:
+            yield key
 
     def itervalues(self):
-        return self.__constants__.itervalues()
+        return self.__sorted__
 
     def iteritems(self):
-        return self.__constants__.iteritems()
+        for value in self.__sorted__:
+            yield value.name(), value
 
 
 class Constants(object):
