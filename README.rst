@@ -46,7 +46,7 @@ The namespaces also allow some dict-like introspection::
 
   >>> len(Colors)
   5
-  >>> assert sorted(Colors.values()) == range(5)
+  >>> assert Colors.values() == range(5) == list(Colors)
   >>> Colors.has_key('blue')
   True
   >>> Colors.has_key('purple')

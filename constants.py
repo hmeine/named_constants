@@ -76,7 +76,7 @@ class ConstMeta(type):
         return len(self.__constants__)
 
     def __iter__(self):
-        return iter(self.__constants__)
+        return iter(self.__sorted__)
 
     def __setattr__(self, _name, _value):
         raise TypeError('Constants are not supposed to be changed ex post')
