@@ -19,7 +19,7 @@ special feature about them is their string representation::
   >>> MyConstants.pi
   MyConstants.pi
   >>> print MyConstants.pi
-  pi
+  3.14159265359
 
 One common use case will be the definition of some enum-like identifiers::
 

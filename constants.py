@@ -14,7 +14,7 @@ class ConstMeta(type):
                 res._namespace = None
                 return res
 
-            def __str__(self):
+            def name(self):
                 return self._name
             
             def __repr__(self):
@@ -34,7 +34,8 @@ class ConstMeta(type):
                 constant's name instead of the original string
                 representations.""",
                 __new__ = __new__,
-                __str__ = __str__,
+                name = name,
+                #__str__ = name,
                 __repr__ = __repr__)
 
             if not issubclass(typ, str):
