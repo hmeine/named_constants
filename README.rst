@@ -35,6 +35,13 @@ One common use case will be the definition of some enum-like identifiers::
    ...
   TypeError: Constants are not supposed to be changed ex post
 
+The named constants can also be looked up by name or by value::
+
+  >>> Colors(3)
+  Colors.blue
+  >>> Colors('white') is Colors.white
+  True
+
 The namespaces also allow some dict-like introspection::
 
   >>> len(Colors)

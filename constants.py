@@ -60,6 +60,7 @@ class ConstMeta(type):
             dct[member] = c
 
         dct['__constants__'] = constants
+        dct['__reverse__'] = dict((value, value) for key, value in constants.iteritems())
 
         result = type.__new__(cls, name, bases, dct)
 
@@ -78,12 +79,18 @@ class ConstMeta(type):
     def __setattr__(self, _name, _value):
         raise TypeError('Constants are not supposed to be changed ex post')
 
-    # dict-like API follows (maybe optional?) - TODO: __contains__
-    def keys(self):
-        return self.__constants__.keys()
+    def __contains__(self, x):
+        return self.has_key(x) or self.has_value(x)
 
     def has_key(self, key):
         return self.__constants__.has_key(key)
+
+    def has_value(self, value):
+        return self.__reverse__.has_key(value)
+
+    # dict-like API follows (maybe optional?) - TODO: __contains__
+    def keys(self):
+        return self.__constants__.keys()
 
     def values(self):
         return self.__constants__.values()
@@ -105,6 +112,14 @@ class Constants(object):
     """Base class for constant namespaces."""
     __metaclass__ = ConstMeta
     __slots__ = ()
+
+    def __new__(cls, x):
+        if cls.has_value(x):
+            return cls.__reverse__[x]
+        if cls.has_key(x):
+            return cls.__constants__[x]
+        raise ValueError('%s has no key or value %r' % (cls.__name__, x))
+
 
 # --------------------------------------------------------------------
 
