@@ -9,7 +9,7 @@ to define constants in a common namespace::
    >>> class MyConstants(constants.Constants):
    ...     pi = 3.141592653589793
    ...     e = 2.718281828459045
-   ... 
+   ...
    >>> print MyConstants.pi / 2
    1.57079632679
 
@@ -31,7 +31,7 @@ One common use case will be the definition of some enum-like identifiers::
 
   >>> class Colors(constants.Constants):
   ...     red, yellow, green, blue, white = range(5)
-  ... 
+  ...
   >>> Colors.blue
   Colors.blue
   >>> Colors.black = None
@@ -64,7 +64,7 @@ The namespaces also allow some dict-like introspection::
        white: 4
 
 Note that iterating over the namespace (e.g. using the standard
-`keys()`, `values()`, `items()`, their iter variants, or just `for
-constant in MyConst`), the results will be *sorted* by the values (not
+``keys()``, ``values()``, ``items()``, their iter variants, or just ``for
+constant in MyConst``), the results will be *sorted* by the values (not
 the keys/names).  This is particularly useful for dumping tables like
 above.
