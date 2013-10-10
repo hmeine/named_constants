@@ -46,6 +46,22 @@ The named constants can also be looked up by name or by value::
   >>> Colors('white') is Colors.white
   True
 
+The singleton-like semantics allow you to use equality checks or
+identity checks, depending on what shall be the result when comparing
+with the original value::
+
+  >>> color1 = 3
+  >>> color2 = Colors(color1)
+  >>> color3 = Colors('blue')
+  >>> color1 == color2
+  True
+  >>> color1 is color2
+  False
+  >>> color2 is Colors.blue
+  True
+  >>> color3 is Colors.blue
+  True
+
 The namespaces also allow some dict-like introspection::
 
   >>> len(Colors)
