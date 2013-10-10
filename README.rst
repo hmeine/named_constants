@@ -1,12 +1,11 @@
-
 USAGE
-====
+=====
 
-This module is used by deriving from ``constants.Constants`` in order
-to define constants in a common namespace::
+This module is used by deriving from ``named_constants.Constants`` in
+order to define constants in a common namespace::
 
-   >>> import constants
-   >>> class MyConstants(constants.Constants):
+   >>> from named_constants import Constants
+   >>> class MyConstants(Constants):
    ...     pi = 3.141592653589793
    ...     e = 2.718281828459045
    ...
@@ -22,14 +21,14 @@ about them is their string representation, and that they have a name()::
   >>> print(MyConstants.pi)
   3.141592653589793
   >>> type(MyConstants.pi)
-  <class 'constants.NamedFloat'>
+  <class 'named_constants.NamedFloat'>
   >>> assert isinstance(MyConstants.pi, float)
   >>> MyConstants.pi.name()
   'pi'
 
 One common use case will be the definition of some enum-like identifiers::
 
-  >>> class Colors(constants.Constants):
+  >>> class Colors(Constants):
   ...     red, yellow, green, blue, white = range(5)
   ...
   >>> Colors.blue
@@ -44,6 +43,22 @@ The named constants can also be looked up by name or by value::
   >>> Colors(3)
   Colors.blue
   >>> Colors('white') is Colors.white
+  True
+
+The singleton-like semantics allow you to use equality checks or
+identity checks, depending on what shall be the result when comparing
+with the original value::
+
+  >>> color1 = 3
+  >>> color2 = Colors(color1)
+  >>> color3 = Colors('blue')
+  >>> color1 == color2
+  True
+  >>> color1 is color2
+  False
+  >>> color2 is Colors.blue
+  True
+  >>> color3 is Colors.blue
   True
 
 The namespaces also allow some dict-like introspection::
