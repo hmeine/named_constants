@@ -10,8 +10,8 @@ to define constants in a common namespace::
    ...     pi = 3.141592653589793
    ...     e = 2.718281828459045
    ...
-   >>> print MyConstants.pi / 2
-   1.57079632679
+   >>> print(MyConstants.pi / 2)
+   1.5707963267948966
 
 As you can see, the named constants behave as expected, since they are
 instances of subclasses of the original type.  The only special feature
@@ -19,8 +19,8 @@ about them is their string representation, and that they have a name()::
 
   >>> MyConstants.pi
   MyConstants.pi
-  >>> print MyConstants.pi
-  3.14159265359
+  >>> print(MyConstants.pi)
+  3.141592653589793
   >>> type(MyConstants.pi)
   <class 'constants.NamedFloat'>
   >>> assert isinstance(MyConstants.pi, float)
@@ -50,13 +50,13 @@ The namespaces also allow some dict-like introspection::
 
   >>> len(Colors)
   5
-  >>> assert Colors.values() == range(5) == list(Colors)
+  >>> assert Colors.values() == list(range(5)) == list(Colors)
   >>> Colors.has_key('blue')
   True
   >>> Colors.has_key('purple')
   False
   >>> for key, value in Colors.iteritems():
-  ...     print "%10s: %s" % (key, value)
+  ...     print("%10s: %s" % (key, value))
          red: 0
       yellow: 1
        green: 2

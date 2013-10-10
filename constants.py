@@ -41,9 +41,6 @@ The name is also available via a `name()` method.""".lstrip(),
                 #__str__ = name,
                 __repr__ = __repr__)
 
-            if not issubclass(typ, str):
-                dct['__slots__'] = ('_name', '_namespace')
-
             typName = typ.__name__
             name = 'Named' + typName[0].upper() + typName[1:]
             Const = type(name, (typ, ), dct)
@@ -66,8 +63,8 @@ The name is also available via a `name()` method.""".lstrip(),
             dct[member] = c
 
         dct['__constants__'] = constants
-        dct['__reverse__'] = dict((value, value) for key, value in constants.iteritems())
-        dct['__sorted__'] = sorted(constants.values())
+        dct['__reverse__'] = dict((value, value) for key, value in constants.items())
+        dct['__sorted__'] = sorted(constants.values(), key = lambda x: (id(type(x)), x))
 
         result = type.__new__(cls, name, bases, dct)
 
@@ -90,10 +87,10 @@ The name is also available via a `name()` method.""".lstrip(),
         return self.has_key(x) or self.has_value(x)
 
     def has_key(self, key):
-        return self.__constants__.has_key(key)
+        return key in self.__constants__
 
     def has_value(self, value):
-        return self.__reverse__.has_key(value)
+        return value in self.__reverse__
 
     def keys(self):
         return [c.name() for c in self.__sorted__]
@@ -116,9 +113,8 @@ The name is also available via a `name()` method.""".lstrip(),
             yield value.name(), value
 
 
-class Constants(object):
+class Constants(metaclass = _ConstantsMeta):
     """Base class for constant namespaces."""
-    __metaclass__ = _ConstantsMeta
     __slots__ = ()
 
     def __new__(cls, x):
