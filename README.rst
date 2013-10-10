@@ -92,7 +92,8 @@ the keys/names).  This is particularly useful for dumping tables like
 above.
 
 Note that `Colors.has_key(x)` is *not* the same as `x in Colors`,
-because the latter equals `Colors.has_key(x) or Colors.has_value(x)`::
+because the latter equals `Colors.has_key(x) or Colors.has_value(x)`
+(that's why `has_key` exists even in the Python 3 version)::
 
   >>> 3 in Colors
   True
