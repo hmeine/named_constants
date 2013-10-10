@@ -1,12 +1,11 @@
-
 USAGE
-====
+=====
 
-This module is used by deriving from ``constants.Constants`` in order
-to define constants in a common namespace::
+This module is used by deriving from ``named_constants.Constants`` in
+order to define constants in a common namespace::
 
-   >>> import constants
-   >>> class MyConstants(constants.Constants):
+   >>> from named_constants import Constants
+   >>> class MyConstants(Constants):
    ...     pi = 3.141592653589793
    ...     e = 2.718281828459045
    ...
@@ -22,14 +21,14 @@ about them is their string representation, and that they have a name()::
   >>> print MyConstants.pi
   3.14159265359
   >>> type(MyConstants.pi)
-  <class 'constants.NamedFloat'>
+  <class 'named_constants.NamedFloat'>
   >>> assert isinstance(MyConstants.pi, float)
   >>> MyConstants.pi.name()
   'pi'
 
 One common use case will be the definition of some enum-like identifiers::
 
-  >>> class Colors(constants.Constants):
+  >>> class Colors(Constants):
   ...     red, yellow, green, blue, white = range(5)
   ...
   >>> Colors.blue
