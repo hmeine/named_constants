@@ -70,14 +70,14 @@ The namespaces also allow some dict-like introspection::
   True
   >>> Colors.has_key('purple')
   False
-  >>> for name in Colors.iterkeys():
-  ...     print name
+  >>> for name in Colors.keys():
+  ...     print(name)
   red
   yellow
   green
   blue
   white
-  >>> for key, value in Colors.iteritems():
+  >>> for key, value in Colors.items():
   ...     print("%10s: %s" % (key, value))
          red: 0
       yellow: 1
@@ -86,7 +86,7 @@ The namespaces also allow some dict-like introspection::
        white: 4
 
 Note that iterating over the namespace (e.g. using the standard
-``keys()``, ``values()``, ``items()``, their iter variants, or just ``for
+``keys()``, ``values()``, ``items()``, or just ``for
 constant in MyConst``), the results will be *sorted* by the values (not
 the keys/names).  This is particularly useful for dumping tables like
 above.

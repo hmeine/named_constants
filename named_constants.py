@@ -93,22 +93,13 @@ The name is also available via a `name()` method.""".lstrip(),
         return value in self.__reverse__
 
     def keys(self):
-        return [c.name() for c in self.__sorted__]
+        for c in self.__sorted__:
+            yield c.name()
 
     def values(self):
         return self.__sorted__
 
     def items(self):
-        return [(c.name(), c) for c in self.__sorted__]
-
-    def iterkeys(self):
-        for c in self.__sorted__:
-            yield c.name()
-
-    def itervalues(self):
-        return self.__sorted__
-
-    def iteritems(self):
         for c in self.__sorted__:
             yield c.name(), c
 
