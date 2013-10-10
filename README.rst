@@ -90,3 +90,21 @@ Note that iterating over the namespace (e.g. using the standard
 constant in MyConst``), the results will be *sorted* by the values (not
 the keys/names).  This is particularly useful for dumping tables like
 above.
+
+Note that `Colors.has_key(x)` is *not* the same as `x in Colors`,
+because the latter equals `Colors.has_key(x) or Colors.has_value(x)`::
+
+  >>> 3 in Colors
+  True
+  >>> 17 in Colors
+  False
+  >>> 'blue' in Colors
+  True
+  >>> 'silver' in Colors
+  False
+  >>> Colors.has_value(3)
+  True
+  >>> Colors.has_key('blue')
+  True
+  >>> Colors.has_key(3)
+  False
