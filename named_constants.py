@@ -102,15 +102,15 @@ The name is also available via a `name()` method.""".lstrip(),
         return [(c.name(), c) for c in self.__sorted__]
 
     def iterkeys(self):
-        for key, value in self.__sorted__:
-            yield key
+        for c in self.__sorted__:
+            yield c.name()
 
     def itervalues(self):
         return self.__sorted__
 
     def iteritems(self):
-        for value in self.__sorted__:
-            yield value.name(), value
+        for c in self.__sorted__:
+            yield c.name(), c
 
 
 class Constants(metaclass = _ConstantsMeta):

@@ -70,6 +70,13 @@ The namespaces also allow some dict-like introspection::
   True
   >>> Colors.has_key('purple')
   False
+  >>> for name in Colors.iterkeys():
+  ...     print name
+  red
+  yellow
+  green
+  blue
+  white
   >>> for key, value in Colors.iteritems():
   ...     print("%10s: %s" % (key, value))
          red: 0
