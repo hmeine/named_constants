@@ -14,6 +14,8 @@ have a big footprint, but supports the following features:
 * Arbitrary value types (not just integers)
 * Constant-ness (no change after time of definition)
 
+There are unit tests, and there is a Python 3 branch available.
+
 Usage
 =====
 
@@ -109,8 +111,8 @@ constant in MyConst``), the results will be *sorted* by the values (not
 the keys/names).  This is particularly useful for dumping tables like
 above.
 
-Note that `Colors.has_key(x)` is *not* the same as `x in Colors`,
-because the latter equals `Colors.has_key(x) or Colors.has_value(x)`::
+Note that ``Colors.has_key(x)`` is *not* the same as ``x in Colors``,
+because the latter equals ``Colors.has_key(x) or Colors.has_value(x)``::
 
   >>> 3 in Colors
   True
