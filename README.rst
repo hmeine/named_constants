@@ -1,4 +1,20 @@
-USAGE
+Overview
+========
+
+This module offers an easy way to define named constants in Python,
+supporting some simple enum-like use case, as well as arbitrary value
+types like strings or floats.  It is rather simple to use and does not
+have a big footprint, but supports the following features:
+
+* Ease of use (a simple class for scoping, plain definitions inside)
+* Enumeration of defined constants
+* Values know their *name*, i.e. you don't have to guess which meaning
+  the constant value 3 has (e.g. it's name() will be 'blue' and its
+  __repr__ will format as 'Colors.blue')
+* Arbitrary value types (not just integers)
+* Constant-ness (no change after time of definition)
+
+Usage
 =====
 
 This module is used by deriving from ``named_constants.Constants`` in
@@ -12,9 +28,11 @@ order to define constants in a common namespace::
    >>> print(MyConstants.pi / 2)
    1.5707963267948966
 
-As you can see, the named constants behave as expected, since they are
-instances of subclasses of the original type.  The only special feature
-about them is their string representation, and that they have a name()::
+As you can see, the definitions behave as expected, since they are
+still instances of (subclasses of) the original type.  They do offer
+some additional features, however, most notably that their string
+representation reveals the constant's name, and that they also have a
+corresponding name() getter function::
 
   >>> MyConstants.pi
   MyConstants.pi

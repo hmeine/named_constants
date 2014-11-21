@@ -23,7 +23,7 @@ class _ConstantsMeta(type):
             def __repr__(self):
                 if self._namespace is None:
                     return self._name
-                if self._namespace.__module__ == '__main__':
+                if self._namespace.__module__ in ('__main__', '__builtin__'):
                     namespace = self._namespace.__name__
                 else:
                     namespace = "%s.%s" % (self._namespace.__module__,
@@ -55,7 +55,7 @@ The name is also available via a `name()` method.""".lstrip(),
         # replace class contents with values wrapped in (typed) Const-class:
         for member in dct:
             value = dct[member]
-            if member.startswith('_') or inspect.isfunction(value):
+            if member.startswith('_') or inspect.isfunction(value) or inspect.ismethoddescriptor(value):
                 continue
             Const = cls.NamedValue(type(value))
             c = Const(member, value)
