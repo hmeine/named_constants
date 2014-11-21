@@ -23,7 +23,7 @@ class _ConstantsMeta(type):
             def __repr__(self):
                 if self._namespace is None:
                     return self._name
-                if self._namespace.__module__ == '__main__':
+                if self._namespace.__module__ in ('__main__', '__builtin__'):
                     namespace = self._namespace.__name__
                 else:
                     namespace = "%s.%s" % (self._namespace.__module__,
