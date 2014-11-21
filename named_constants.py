@@ -58,7 +58,7 @@ The name is also available via a `name()` method.""".lstrip(),
         # replace class contents with values wrapped in (typed) Const-class:
         for member in dct:
             value = dct[member]
-            if member.startswith('_') or inspect.isfunction(value):
+            if member.startswith('_') or inspect.isfunction(value) or inspect.ismethoddescriptor(value):
                 continue
             Const = cls.NamedValue(type(value))
             c = Const(member, value)
