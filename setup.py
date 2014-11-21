@@ -23,7 +23,8 @@ have a big footprint, but supports the following features:
           'Development Status :: 5 - Production/Stable',
           'License :: OSI Approved :: Apache Software License',
           'Operating System :: OS Independent',
-          'Programming Language :: Python :: 2'
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 3',
       ],
       author = 'Hans Meine',
       author_email = 'hans_meine@gmx.net',
