@@ -14,7 +14,8 @@ have a big footprint, but supports the following features:
 * Arbitrary value types (not just integers)
 * Constant-ness (no change after time of definition)
 
-There are unit tests, and there is a Python 3 branch available.
+There are unit tests, and the code has been made compatible with both
+Python 2.x and 3.x at the same time.
 
 Usage
 =====
