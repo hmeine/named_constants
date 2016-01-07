@@ -24,10 +24,10 @@ order to define constants in a common namespace::
 
    >>> from named_constants import Constants
    >>> class MyConstants(Constants):
-   ...     pi = 3.141592653589793
-   ...     e = 2.718281828459045
+   ...     pi = 3.14159265358
+   ...     e = 2.71828182845
    ...
-   >>> print MyConstants.pi / 2
+   >>> print(MyConstants.pi / 2)
    1.57079632679
 
 As you can see, the definitions behave as expected, since they are
@@ -38,8 +38,8 @@ corresponding name() getter function::
 
   >>> MyConstants.pi
   MyConstants.pi
-  >>> print MyConstants.pi
-  3.14159265359
+  >>> print(MyConstants.pi)
+  3.14159265358
   >>> type(MyConstants.pi)
   <class 'named_constants.NamedFloat'>
   >>> assert isinstance(MyConstants.pi, float)
@@ -85,20 +85,20 @@ The namespaces also allow some dict-like introspection::
 
   >>> len(Colors)
   5
-  >>> assert Colors.values() == range(5) == list(Colors)
+  >>> assert Colors.values() == list(range(5)) == list(Colors)
   >>> Colors.has_key('blue')
   True
   >>> Colors.has_key('purple')
   False
-  >>> for name in Colors.iterkeys():
-  ...     print name
+  >>> for name in Colors.keys():
+  ...     print(name)
   red
   yellow
   green
   blue
   white
-  >>> for key, value in Colors.iteritems():
-  ...     print "%10s: %s" % (key, value)
+  >>> for key, value in Colors.items():
+  ...     print("%10s: %s" % (key, value))
          red: 0
       yellow: 1
        green: 2
@@ -106,13 +106,14 @@ The namespaces also allow some dict-like introspection::
        white: 4
 
 Note that iterating over the namespace (e.g. using the standard
-``keys()``, ``values()``, ``items()``, their iter variants, or just ``for
-constant in MyConst``), the results will be *sorted* by the values (not
-the keys/names).  This is particularly useful for dumping tables like
-above.
+``keys()``, ``values()``, ``items()``, their iter variants (in Python 2),
+or just ``for constant in MyConst``), the results will be *sorted* by
+the values (not the keys/names).  This is particularly useful for
+dumping tables like above.
 
 Note that ``Colors.has_key(x)`` is *not* the same as ``x in Colors``,
-because the latter equals ``Colors.has_key(x) or Colors.has_value(x)``::
+because the latter equals ``Colors.has_key(x) or Colors.has_value(x)``
+(that's why `has_key` exists even in the Python 3 version)::
 
   >>> 3 in Colors
   True

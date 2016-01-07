@@ -1,4 +1,45 @@
-import inspect
+import sys, inspect
+
+#---------------------------------------------------------------------
+# python 2 / 3 compatibility stuff
+
+PY2 = sys.version_info <= (3,)
+
+def with_metaclass(meta, *bases):
+    """
+    Function from jinja2/_compat.py. License: BSD.
+
+    Use it like this::
+        
+        class BaseForm(object):
+            pass
+        
+        class FormType(type):
+            pass
+        
+        class Form(with_metaclass(FormType, BaseForm)):
+            pass
+
+    This requires a bit of explanation: the basic idea is to make a
+    dummy metaclass for one level of class instantiation that replaces
+    itself with the actual metaclass.  Because of internal type checks
+    we also need to make sure that we downgrade the custom metaclass
+    for one level to something closer to type (that's why __call__ and
+    __init__ comes back from type etc.).
+    
+    This has the advantage over six.with_metaclass of not introducing
+    dummy classes into the final MRO.
+    """
+    class metaclass(meta):
+        __call__ = type.__call__
+        __init__ = type.__init__
+        def __new__(cls, name, this_bases, d):
+            if this_bases is None:
+                return type.__new__(cls, name, (), d)
+            return meta(name, bases, d)
+    return metaclass('temporary_class', None, {})
+
+#---------------------------------------------------------------------
 
 class _ConstantsMeta(type):
     __NamedTypes = {}
@@ -41,9 +82,6 @@ The name is also available via a `name()` method.""".lstrip(),
                 #__str__ = name,
                 __repr__ = __repr__)
 
-            if not issubclass(typ, str):
-                dct['__slots__'] = ('_name', '_namespace')
-
             typName = typ.__name__
             name = 'Named' + typName[0].upper() + typName[1:]
             Const = type(name, (typ, ), dct)
@@ -66,8 +104,8 @@ The name is also available via a `name()` method.""".lstrip(),
             dct[member] = c
 
         dct['__constants__'] = constants
-        dct['__reverse__'] = dict((value, value) for key, value in constants.iteritems())
-        dct['__sorted__'] = sorted(constants.values())
+        dct['__reverse__'] = dict((value, value) for key, value in constants.items())
+        dct['__sorted__'] = sorted(constants.values(), key = lambda x: (id(type(x)), x))
 
         result = type.__new__(cls, name, bases, dct)
 
@@ -90,35 +128,39 @@ The name is also available via a `name()` method.""".lstrip(),
         return self.has_key(x) or self.has_value(x)
 
     def has_key(self, key):
-        return self.__constants__.has_key(key)
+        return key in self.__constants__
 
     def has_value(self, value):
-        return self.__reverse__.has_key(value)
+        return value in self.__reverse__
 
     def keys(self):
-        return [c.name() for c in self.__sorted__]
+        for c in self.__sorted__:
+            yield c.name()
 
     def values(self):
         return self.__sorted__
 
     def items(self):
-        return [(c.name(), c) for c in self.__sorted__]
-
-    def iterkeys(self):
-        for c in self.__sorted__:
-            yield c.name()
-
-    def itervalues(self):
-        return self.__sorted__
-
-    def iteritems(self):
         for c in self.__sorted__:
             yield c.name(), c
 
+    if PY2:
+        iterkeys = keys
+        itervalues = values
+        iteritems = items
+        
+        def keys(self):
+            return [c.name() for c in self.__sorted__]
 
-class Constants(object):
+        def values(self):
+            return self.__sorted__
+
+        def items(self):
+            return [(c.name(), c) for c in self.__sorted__]
+
+
+class Constants(with_metaclass(_ConstantsMeta)):
     """Base class for constant namespaces."""
-    __metaclass__ = _ConstantsMeta
     __slots__ = ()
 
     def __new__(cls, x):
